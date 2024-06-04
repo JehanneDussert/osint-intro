@@ -33,10 +33,9 @@ async def get_google_infos(
     networks: Optional[List[str]] = Query(None)
 ) -> Dict[str, Union[List[EngineResult], List[NetworkAppearances]]]:
     
-    print('qu: ', query)
     query = query.replace(' ', '+')
     
-    print('qu af: ', query)
+    print('query: ', query)
     
     engine_results = google_search(query, num_results)
     network_appearances = calculate_network_appearances(engine_results)

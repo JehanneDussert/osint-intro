@@ -8,14 +8,12 @@ from app.utils.personal_data import extract_personal_data
 
 def duckduckgo_search(query: str, num_results: int = 10) -> List[EngineResult]:
     url = f"https://api.duckduckgo.com/?q=jehanne+dussert&format=json"
-    print('query: ', query)
+
     try:
         response = requests.get(url)
-        print('res: ', response)
         data = response.json()
-        print('data: ', data)
-
         results_list = []
+        
         for result in data.get('RelatedTopics', [])[:num_results]:
             title = result.get('Text', 'No title')
             url = result.get('FirstURL', '')
