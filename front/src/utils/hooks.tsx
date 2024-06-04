@@ -7,10 +7,10 @@ export const useFetch = (url: string) => {
     const [loadingData, setLoadingData] = useState<boolean>(false);
     const [loadingUrl, setLoadingUrl] = useState<boolean>(false);
 
-    const fetchData = useCallback(async (query: string) => {
+    const fetchData = useCallback(async (query: string, num_results: number = 10) => {
         setLoadingData(true);
         try {
-            const response = await fetch(`${url}?query=${query}`);
+            const response = await fetch(`${url}?query=${query}&num_results=${num_results}`);
             if (!response.ok) {
                 throw new Error(`Fetch failed with status: ${response.status}`);
             }

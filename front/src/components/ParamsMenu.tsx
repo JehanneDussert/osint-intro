@@ -96,7 +96,7 @@ export const ParamsMenu: React.FC<ParamsMenuProps> = ({ socialNetworks, engines,
         })}
       </div>
       <div className="flex-1">
-        <h1 className='pb-4 pl-4'>Recherche multi-moteurs</h1>
+        <h1 className='pb-4 pl-4'>Recherche</h1>
         <FormControl sx={{ m: 1, width: '100%' }}>
           <InputLabel id="search-engines-select-label">Moteurs de recherche</InputLabel>
           <Select

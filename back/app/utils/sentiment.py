@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from textblob import TextBlob
 from typing import List
-from schemas import EngineResult
+from app.schemas import EngineResult
 
 def get_sentiment(url: str) -> float:
     response = requests.get(url)

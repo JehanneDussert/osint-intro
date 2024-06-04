@@ -1,7 +1,7 @@
 import requests
 import re
 from bs4 import BeautifulSoup
-from schemas import PersonalData
+from app.schemas import PersonalData
 
 def extract_personal_data(url: str) -> PersonalData:
     response = requests.get(url)

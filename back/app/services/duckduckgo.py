@@ -1,10 +1,10 @@
 import requests
-from schemas import EngineResult
+from app.schemas import EngineResult
 from typing import List
-from utils.sentiment import get_sentiment, calculate_average_sentiment
-from utils.language import get_language
+from app.utils.sentiment import get_sentiment, calculate_average_sentiment
+from app.utils.language import get_language
 from fastapi import HTTPException
-from utils.personal_data import extract_personal_data
+from app.utils.personal_data import extract_personal_data
 
 def duckduckgo_search(query: str, num_results: int = 10) -> List[EngineResult]:
     url = f"https://api.duckduckgo.com/?q=jehanne+dussert&format=json"

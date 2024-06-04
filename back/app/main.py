@@ -2,12 +2,12 @@ from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Dict, Optional, Union
-from schemas import EngineResult, PersonalData, NetworkAppearances
-from services.google import google_search
-from utils.sentiment import get_sentiment
-from network_appearances import calculate_network_appearances
-from utils.holehe_data import extract_holehe_data
-from services.duckduckgo import duckduckgo_search
+from app.schemas import EngineResult, PersonalData, NetworkAppearances
+from app.services.google import google_search
+from app.utils.sentiment import get_sentiment
+from app.utils.network_appearances import calculate_network_appearances
+from app.utils.holehe_data import extract_holehe_data
+from app.services.duckduckgo import duckduckgo_search
 
 app = FastAPI()
 

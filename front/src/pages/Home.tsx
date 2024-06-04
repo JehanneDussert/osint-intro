@@ -18,7 +18,7 @@ export const Home = () => {
     const   { data, error, loadingData, fetchData } = useFetch(GET_GOOGLE_INFOS);
 	const   [engineInfos, setEngineInfos] = useState<EngineInfo[]>([]);
 	const   [networkAppearances, setNetworkAppearances] = useState<NetworkAppearances[]>([]);
-
+    
     const get_query_with_networks = () => {
         const newQuery = socialNetworks.reduce((accumulator, network, index) => {
             if (index === 0) 
@@ -43,13 +43,11 @@ export const Home = () => {
 
     useEffect(() => {
         if (isSubmitted) {
+
             if (query.length === 0) return ;
-            console.log('soc: ', socialNetworks)
-            console.log('qu: ', query)
+            
             const queryWithNetworks = get_query_with_networks();
             const queryWithDoctypes = get_query_with_doctypes(queryWithNetworks);
-
-            console.log('iciiiii: ', queryWithDoctypes)
 
             fetchData(queryWithDoctypes);
             setIsSubmitted(false);
@@ -65,31 +63,13 @@ export const Home = () => {
 
     useEffect(() => {
         console.log('ici eng: ', engineInfos)
+        console.log(currentPageItems)
     }, [engineInfos])
 
     useEffect(() => {
         console.log('ici net: ', networkAppearances)
+        console.log(currentPageItems)
     }, [networkAppearances])
-
-    useEffect(() => {
-        if (query.length === 0) return ;
-        console.log('soc: ', socialNetworks)
-        console.log('qu: ', query)
-        const socialNetworksQuery = socialNetworks.reduce((accumulator, network, index) => {
-        if (index === 0) {
-            // Ajouter le premier site sans le mot-clé "OR"
-            return `${accumulator}+site:${network}.com`;
-        } else {
-            // Ajouter les sites suivants avec le mot-clé "OR"
-            return `${accumulator}+OR+site:${network}.com`;
-        }
-        }, query);
-        console.log(socialNetworksQuery)
-    }, [socialNetworks])
-
-    useEffect(() => {
-        console.log(query)
-    }, [query])
 
     const handlePageClick = (event: { selected: number }) => {
         setCurrentPage(event.selected);
@@ -105,6 +85,7 @@ export const Home = () => {
     const offset = currentPage * itemsPerPage;
     const currentPageItems = engineInfos ? engineInfos.slice(offset, offset + itemsPerPage) : [];
 
+    console.log('curr: ', currentPageItems)
     return (
         <div className="w-full flex items-center flex-col">
             <div className="w-11/12 mb-8">

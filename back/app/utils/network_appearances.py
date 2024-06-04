@@ -3,7 +3,7 @@ from typing import List
 from collections import defaultdict
 from urllib.parse import urlparse
 import re
-from schemas import NetworkAppearances, EngineResult
+from app.schemas import NetworkAppearances, EngineResult
 
 def extract_domain(url: str) -> str:
     # match = re.search(r"(?:https?://)?(?:www\.)?([^/.]+)", url)

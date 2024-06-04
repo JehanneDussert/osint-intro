@@ -105,6 +105,7 @@ type CollapsibleTableProps = {
 };
 
 export const CollapsibleTable = ({ currentPageItems }: CollapsibleTableProps) => {
+  
   const rowsData = currentPageItems.map((item) =>
     createData(item.title, item.language == 'fr' ? '🇫🇷' : '🇬🇧', item.sentiment, item.url, item.personal_data)
   );

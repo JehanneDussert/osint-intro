@@ -1,12 +1,12 @@
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urljoin
 import urllib.request
-from schemas import EngineResult
+from app.schemas import EngineResult
 from typing import List
 from fastapi import HTTPException
-from utils.sentiment import get_sentiment, calculate_average_sentiment
-from utils.language import get_language
-from utils.personal_data import extract_personal_data
+from app.utils.sentiment import get_sentiment, calculate_average_sentiment
+from app.utils.language import get_language
+from app.utils.personal_data import extract_personal_data
 
 def format_google_result(results, url, links) -> EngineResult:
     title = results[0].get_text()
