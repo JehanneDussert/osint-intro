@@ -1,39 +1,36 @@
 import { useEffect } from "react";
-import { EngineInfo, Network } from "../type";
+import { EngineInfo, Network, NetworkAppearances } from "../type";
 import { Gauge, PieChart } from "@mui/x-charts";
 
 type CardsProps = {
     currentPageItems: EngineInfo[];
+    networkAppearances: NetworkAppearances[];
 };
 
-// compter le nb d'apparition par type de site
-// calcul sentiment général
-
-export const Resume = ({ currentPageItems }: CardsProps) => {
-    const networkData: Network[] = [
-        { id: 0, value: 18, label: "LinkedIn" },
-        { id: 1, value: 2, label: "Facebook" },
-        { id: 2, value: 39, label: "X" },
-        { id: 3, value: 14, label: "Instagram" },
-        { id: 4, value: 10, label: "Autre" },
-    ]
+export const Resume = ({ currentPageItems, networkAppearances }: CardsProps) => {
+    const networkData: Network[] = networkAppearances.map((network, index) => ({
+        id: index,
+        value: network.appearances,
+        label: network.type
+    }));
 
     useEffect(() => {
         console.log('current is: ', currentPageItems)
     }, [])
 
     return <div className="flex flex-row py-6 my-6 border">
-        <div className="flex w-1/2 justify-center flex-col items-center">
-            <h1 className="pb-4">Présence sur les réseaux sociaux</h1>
+        <div className="flex justify-center flex-col items-center w-8/12">
+            <h1 className="pb-4 pr-32">Présence sur les réseaux sociaux</h1>
+            <div className="pr-32">
             <PieChart
                 series={[{ data: networkData },]}
-                width={400}
+                width={1200}
                 height={200}
-            />
+            /></div>
         </div>
-        <div className="w-1/2 flex justify-center flex-col items-center">
+        <div className="flex justify-center flex-col items-center">
             <h1 className="pb-4">Sentiment général</h1>
-            <Gauge color="green" width={400} height={200} value={currentPageItems[0] ? currentPageItems[0].average_sentiment : 0} />
+            <Gauge color="green" width={500} height={200} value={currentPageItems[0] ? currentPageItems[0].average_sentiment * 100 : 0} />
         </div>
     </div>
 }

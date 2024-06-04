@@ -12,11 +12,14 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Gauge } from '@mui/x-charts';
+import { EngineInfo, PersonalData } from '../type';
 
 function createData(
   title: string,
   language: string,
   sentiment: number,
+  url: string,
+  personal_data: PersonalData
 ) {
   return {
     title,
@@ -24,14 +27,10 @@ function createData(
     sentiment,
     history: [
       {
-        source: 'https://monsite.fr',
-        date: '2020-01-05',
-        personal_data: 'monmail.fr',
-      },
-      {
-        source: 'https://monsite.fr',
-        date: '2020-01-05',
-        personal_data: 'monmail.fr',
+        source: url,
+        // date: '2020-01-05',
+        emails: personal_data.emails.join(", "),
+        phoneNumbers: personal_data.phone_numbers.join(", "),
       },
     ],
   };
@@ -69,19 +68,25 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                 <TableHead>
                   <TableRow>
                     <TableCell>Source</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell align="right">Données personnelles</TableCell>
+                    {/* <TableCell>Date</TableCell> */}
+                    <TableCell align="right">Emails</TableCell>
+                    <TableCell align="right">Numéro de téléphone</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
+                  {row.history.map((historyRow, index) => (
+                    <TableRow key={index}>
                       <TableCell component="th" scope="row">
-                        {historyRow.source}
+                        <a href={historyRow.source} target="_blank" rel="noopener noreferrer">
+                          {historyRow.source}
+                        </a>
                       </TableCell>
-                      <TableCell>{historyRow.date}</TableCell>
+                      {/* <TableCell>{historyRow.date}</TableCell> */}
+                      <TableCell>
+                        {historyRow.phoneNumbers}
+                      </TableCell>
                       <TableCell align="right">
-                        {historyRow.personal_data}
+                        {historyRow.emails}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -95,15 +100,15 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   );
 }
 
-const rows = [
-  createData('Jehanne Dussert', "🇫🇷", 0.4),
-  createData('Jehanne Dussert 2', "🇫🇷", 0.4),
-  createData('Jehanne Dussert 3', "🇫🇷", 0.4),
-  createData('Jehanne Dussert 4', "🇫🇷", 0.4),
-  createData('Jehanne Dussert 5', "🇫🇷", 0.4),
-];
+type CollapsibleTableProps = {
+    currentPageItems: EngineInfo[];
+};
 
-export default function CollapsibleTable() {
+export const CollapsibleTable = ({ currentPageItems }: CollapsibleTableProps) => {
+  const rowsData = currentPageItems.map((item) =>
+    createData(item.title, item.language == 'fr' ? '🇫🇷' : '🇬🇧', item.sentiment, item.url, item.personal_data)
+  );
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -116,7 +121,7 @@ export default function CollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
+          {rowsData.map((row, index) => (
             <Row key={index} row={row} />
           ))}
         </TableBody>

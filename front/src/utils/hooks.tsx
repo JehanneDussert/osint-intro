@@ -43,18 +43,3 @@ export const useFetch = (url: string) => {
 
     return { data, error, loadingData, loadingUrl, fetchData, fetchUrl, sentiment };
 };
-
-export const useFetchCombinedInfos = (baseUrl: string) => {
-    const { data, error, loadingData, fetchData: fetchOriginalData } = useFetch(baseUrl);
-
-    const fetchCombinedInfos = useCallback(async (query: string, num_results: number, sources: string[]) => {
-        const params = new URLSearchParams({ query, num_results: num_results.toString() });
-        if (sources && sources.length > 0) {
-            params.append("sources", sources.join(","));
-        }
-
-        await fetchOriginalData(`${baseUrl}/get_combined_infos?${params.toString()}`);
-    }, [baseUrl, fetchOriginalData]);
-
-    return { data, error, loading: loadingData, fetchCombinedInfos };
-};

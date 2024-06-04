@@ -4,8 +4,9 @@ from typing import List
 from utils.sentiment import get_sentiment, calculate_average_sentiment
 from utils.language import get_language
 from fastapi import HTTPException
+from utils.personal_data import extract_personal_data
 
-def duckduckgo_search(query: str, num_results: int = 20) -> List[EngineResult]:
+def duckduckgo_search(query: str, num_results: int = 10) -> List[EngineResult]:
     url = f"https://api.duckduckgo.com/?q=jehanne+dussert&format=json"
     print('query: ', query)
     try:
@@ -18,9 +19,9 @@ def duckduckgo_search(query: str, num_results: int = 20) -> List[EngineResult]:
         for result in data.get('RelatedTopics', [])[:num_results]:
             title = result.get('Text', 'No title')
             url = result.get('FirstURL', '')
-            print('url: ', url)
             sentiment = get_sentiment(url)
-            language = get_language(title)
+            language = get_language(url, title)
+            personal_data = extract_personal_data(url)
             reduced_url = url
 
             google_result = EngineResult(
@@ -29,7 +30,8 @@ def duckduckgo_search(query: str, num_results: int = 20) -> List[EngineResult]:
                 title=title,
                 sentiment=sentiment,
                 average_sentiment=0,
-                language=language
+                language=language,
+                personal_data=personal_data
             )
             results_list.append(google_result)
 

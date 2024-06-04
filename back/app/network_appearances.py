@@ -6,19 +6,28 @@ import re
 from schemas import NetworkAppearances, EngineResult
 
 def extract_domain(url: str) -> str:
-    match = re.search(r"(?:https?://)?(?:www\.)?([^/.]+)", url)
-    if match:
-        domain = match.group(1)
-        return domain
-    else:
-        return ""
+    # match = re.search(r"(?:https?://)?(?:www\.)?([^/.]+)", url)
+    # if match:
+    #     domain = match.group(1)
+    #     return domain
+    # else:
+    #     return ""
+    
+    domain = url.replace("https://", "")
+    domain = domain.replace(".com", "")
+    domain = domain.replace("www.", "")
+    domain = domain.replace(".fr", "")
+    domain = domain.replace("fr.", "")
+    domain = domain.replace(".net", "")
+    domain = domain.replace(".int", "")
+    domain = domain.replace(".org", "")
+    
+    return domain
 
 def calculate_network_appearances(engine_results: List[EngineResult]) -> List[NetworkAppearances]:
     domain_counts = defaultdict(int)
-    print('ici: ', engine_results)
     
     for result in engine_results:
-        print('ici for: ', result)
         domain = extract_domain(result.reduced_url)
         domain_counts[domain] += 1
     
@@ -26,6 +35,6 @@ def calculate_network_appearances(engine_results: List[EngineResult]) -> List[Ne
     
     for domain, count in domain_counts.items():
         network_appearances.append(NetworkAppearances(type=domain, appearances=count))
-    print('app: ', network_appearances)
+
     return network_appearances
         

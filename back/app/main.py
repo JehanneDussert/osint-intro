@@ -6,7 +6,6 @@ from schemas import EngineResult, PersonalData, NetworkAppearances
 from services.google import google_search
 from utils.sentiment import get_sentiment
 from network_appearances import calculate_network_appearances
-from utils.personal_data import extract_personal_data
 from utils.holehe_data import extract_holehe_data
 from services.duckduckgo import duckduckgo_search
 
@@ -28,15 +27,30 @@ app.add_middleware(
 )
 
 @app.get("/get_google_infos")
-async def get_google_infos(query: str, num_results: int = 2) -> Dict[str, Union[List[EngineResult], List[NetworkAppearances]]]:
+async def get_google_infos(
+    query: str, 
+    num_results: int = 10,
+    networks: Optional[List[str]] = Query(None)
+) -> Dict[str, Union[List[EngineResult], List[NetworkAppearances]]]:
+    
+    print('qu: ', query)
+    query = query.replace(' ', '+')
+    
+    # for network in networks:
+    #     if query.find("site") != -1:
+    #         query = query + " OR"
+    #     else:
+    #         query = query + " AND"
+    #     query = query + " site:" + network
+    print('qu af: ', query)
+    
     engine_results = google_search(query, num_results)
-    print('enf!', engine_results)
     network_appearances = calculate_network_appearances(engine_results)
-    print('net app: ', network_appearances)
+
     return {"EngineResults": engine_results, "NetworkAppearances": network_appearances}
 
 @app.get("/get_duckduckgo_infos")
-async def get_duckduckgo_infos(query: str, num_results: int = 2) -> Dict[str, Union[List[EngineResult], List[NetworkAppearances]]]:
+async def get_duckduckgo_infos(query: str, num_results: int = 10) -> Dict[str, Union[List[EngineResult], List[NetworkAppearances]]]:
     engine_results = duckduckgo_search(query, num_results)
     network_appearances = calculate_network_appearances(engine_results)
     
@@ -45,7 +59,7 @@ async def get_duckduckgo_infos(query: str, num_results: int = 2) -> Dict[str, Un
 @app.get("/get_combined_infos", response_model=Dict[str, Union[List[EngineResult], List[NetworkAppearances]]])
 async def get_combined_infos(
     query: str, 
-    num_results: int = 2, 
+    num_results: int = 10, 
     sources: Optional[List[str]] = Query(None)
 ):
     engine_results = []
@@ -85,15 +99,15 @@ async def get_sentiments_by_query(query: str) -> Dict[str, float]:
 
     return sentiment_scores
 
-@app.get("/get_personal_data")
-async def get_personal_data(query: str) -> List[PersonalData]:
-    items = await get_google_infos(query)
-    personal_data = []
+# @app.get("/get_personal_data")
+# async def get_personal_data(query: str) -> List[PersonalData]:
+#     items = await get_google_infos(query)
+#     personal_data = []
 
-    for item in items:
-        personal_data.append(extract_personal_data(item.url, query))
+#     for item in items:
+#         personal_data.append(extract_personal_data(item.url, query))
 
-    return personal_data
+#     return personal_data
 
 @app.get("/get_holehe_infos")
 async def get_holehe_infos() -> List[str]:

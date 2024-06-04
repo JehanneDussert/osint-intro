@@ -8,32 +8,42 @@ import { ParamsMenu } from "../components/ParamsMenu";
 import { EngineInfo, NetworkAppearances } from "../type";
 
 export const Home = () => {
-    const [query, setQuery] = useState<string>("");
-    const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-    const [currentPage, setCurrentPage] = useState<number>(0);
-    const itemsPerPage = 5;
-    const [socialNetworks, setSocialNetworks] = useState<string[]>([]);
-    const [docTypes, setDocTypes] = useState<string[]>([]);
-    const [engines, setEngines] = useState<string[]>(["Google"]);
-
-
-    const { data, error, loadingData, fetchData } = useFetch(GET_GOOGLE_INFOS);
+    const   [query, setQuery] = useState<string>("");
+    const   [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+    const   [currentPage, setCurrentPage] = useState<number>(0);
+    const   itemsPerPage = 5;
+    const   [socialNetworks, setSocialNetworks] = useState<string[]>([]);
+    const   [docTypes, setDocTypes] = useState<string[]>([]);
+    const   [engines, setEngines] = useState<string[]>(["Google"]);
+    const   { data, error, loadingData, fetchData } = useFetch(GET_GOOGLE_INFOS);
 	const   [engineInfos, setEngineInfos] = useState<EngineInfo[]>([]);
 	const   [networkAppearances, setNetworkAppearances] = useState<NetworkAppearances[]>([]);
 
     useEffect(() => {
         if (isSubmitted) {
-            fetchData(query);
+            if (query.length === 0) return ;
+            console.log('soc: ', socialNetworks)
+            console.log('qu: ', query)
+            const socialNetworksQuery = socialNetworks.reduce((accumulator, network, index) => {
+            if (index === 0) {
+                // Ajouter le premier site sans le mot-clé "OR"
+                return `${accumulator}+site:${network}.com`;
+            } else {
+                // Ajouter les sites suivants avec le mot-clé "OR"
+                return `${accumulator}+OR+site:${network}.com`;
+            }
+            }, query);
+            fetchData(socialNetworksQuery);
             setIsSubmitted(false);
         }
     }, [isSubmitted, query, fetchData]);
 
     useEffect(() => {
-        if (!data)
-            return;
-        setEngineInfos(data.engine_results);
-        setNetworkAppearances(data.network_appearances);
-    }, [data])
+        if (!data) return;
+        setEngineInfos(data.EngineResults);
+        setNetworkAppearances(data.NetworkAppearances);
+    }, [data]);
+
 
     useEffect(() => {
         console.log('ici eng: ', engineInfos)
@@ -43,6 +53,26 @@ export const Home = () => {
         console.log('ici net: ', networkAppearances)
     }, [networkAppearances])
 
+    useEffect(() => {
+        if (query.length === 0) return ;
+        console.log('soc: ', socialNetworks)
+        console.log('qu: ', query)
+        const socialNetworksQuery = socialNetworks.reduce((accumulator, network, index) => {
+        if (index === 0) {
+            // Ajouter le premier site sans le mot-clé "OR"
+            return `${accumulator}+site:${network}.com`;
+        } else {
+            // Ajouter les sites suivants avec le mot-clé "OR"
+            return `${accumulator}+OR+site:${network}.com`;
+        }
+        }, query);
+        console.log(socialNetworksQuery)
+    }, [socialNetworks])
+
+    useEffect(() => {
+        console.log(query)
+    }, [query])
+
     const handlePageClick = (event: { selected: number }) => {
         setCurrentPage(event.selected);
     };
@@ -51,7 +81,7 @@ export const Home = () => {
         console.log('data: ', data)
     }, [data])
 
-    if (loadingData) return <div>Chargement de la page...</div>;
+    if (loadingData) return <div className="flex justify-center items-center w-full">Chargement de la page...</div>;
     if (error) return <div>Erreur : {error.message}</div>;
 
     const offset = currentPage * itemsPerPage;
@@ -75,18 +105,19 @@ export const Home = () => {
                 />
                 <Cards 
 					currentPageItems={currentPageItems}
+                    networkAppearances={networkAppearances}
 				/>
-                {/* <ReactPaginate
+                <ReactPaginate
                     previousLabel={"Précédent"}
                     nextLabel={"Suivant"}
                     breakLabel={"..."}
-                    pageCount={data ? Math.ceil(data.length / itemsPerPage) : 0}
+                    pageCount={engineInfos ? Math.ceil(engineInfos.length / itemsPerPage) : 0}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
                     onPageChange={handlePageClick}
                     containerClassName={"pagination"}
                     activeClassName={"active"}
-                /> */}
+                />
             </div>
         </div>
     );

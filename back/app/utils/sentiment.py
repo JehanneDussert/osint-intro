@@ -10,8 +10,10 @@ def get_sentiment(url: str) -> float:
     
     soup = BeautifulSoup(content, 'html.parser')
     text = soup.get_text()
+    print('url: ', url)
     
     blob = TextBlob(text)
+    print('ici blob: ', blob.sentiment)
     sentiment_score = blob.sentiment.polarity
     
     return sentiment_score
@@ -32,7 +34,8 @@ def calculate_average_sentiment(results: List[EngineResult]) -> List[EngineResul
             title=item.title,
             sentiment=item.sentiment,
             average_sentiment=average_sentiment,
-            language=item.language
+            language=item.language,
+            personal_data=item.personal_data
         )
         res.append(new_item)
     
