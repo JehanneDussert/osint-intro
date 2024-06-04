@@ -1,7 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
 export const Header = () => {
-	const	navigate = useNavigate();
 
 	return (
 		<div className="py-6 px-20 flex justify-between">

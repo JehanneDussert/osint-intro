@@ -16,6 +16,7 @@ origins = [
     "http://localhost:8080",
     "http://localhost:5173",
     "http://localhost:3000",
+    "http://localhost:4173"
 ]
 
 app.add_middleware(
@@ -80,27 +81,6 @@ def get_sentiments_by_urls(urls: List[str]) -> Dict[str, float]:
         sentiment_scores[url] = sentiment_score
 
     return sentiment_scores
-
-@app.get("/get_sentiments_by_query")
-async def get_sentiments_by_query(query: str) -> Dict[str, float]:
-    sentiment_scores = {}
-    items = await get_google_infos(query)
-
-    for item in items:
-        sentiment_score = get_sentiment(item.url)
-        sentiment_scores[item.url] = sentiment_score
-
-    return sentiment_scores
-
-# @app.get("/get_personal_data")
-# async def get_personal_data(query: str) -> List[PersonalData]:
-#     items = await get_google_infos(query)
-#     personal_data = []
-
-#     for item in items:
-#         personal_data.append(extract_personal_data(item.url, query))
-
-#     return personal_data
 
 @app.get("/get_holehe_infos")
 async def get_holehe_infos() -> List[str]:

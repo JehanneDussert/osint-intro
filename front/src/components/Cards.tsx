@@ -9,15 +9,12 @@ type CardsProps = {
 
 export const Cards = ({ currentPageItems, networkAppearances }: CardsProps) => {
     return <div className="flex flex-col">
-        { currentPageItems.length !== 1 && <div>
-                <Resume 
-                    currentPageItems={currentPageItems}
-                    networkAppearances={networkAppearances}
-                /> 
-                <CollapsibleTable
-                    currentPageItems={currentPageItems}
-                />
-            </div>
-        }
+        <Resume 
+            currentPageItems={currentPageItems}
+            networkAppearances={networkAppearances}
+        /> 
+        <CollapsibleTable
+            currentPageItems={currentPageItems}
+        />
     </div>
 }

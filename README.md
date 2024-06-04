@@ -21,7 +21,7 @@ Create a web application that collects data from Twitter via an API, analyzes th
 
 Project breakdown:
 - [x] Back-end: FastAPI
-- [x] Front-end: React + TypeScript
+- [x] Front-end: React + TypeScript + Tailwind + Mui
 - [x] Tests
 
 ### Back-end
@@ -35,17 +35,18 @@ uvicorn main:app --reload
 ```
 
 #### Endpoints
-- [x] Google informations: /get_google_infos
+- [x] Informations: /get_google_infos, /get_duckduckgo_infos, /get_combined_infos
 - [x] Sentiments: 
     - [x] by url: /get_sentiments_by_urls or /get_sentiment
     - [x] by query: /get_sentiment_by_query
-- [x] Get personal data: /get_personal_data
+- [x] Use holehe: /get_holehe_infos
 
 #### TODO
 - [x] multi-sources research
 - [x] social media integration
-- [x] actuality
-- [x] search by language
+- [ ] actuality
+- [ ] search by language
+- [ ] tests
 
 #### About RESTful API
 
@@ -56,7 +57,13 @@ Key characteristics:
 - [x] Stateless: server does not maintain any client state between requests
 - [x] Uniform Interface: w/ standard HTTP methods, status codes, media types for representing data (JSON or XML)
 - [x] Hypermedia as the Engine of Application State (HATEOAS)
-- [x] Cacheable:
+- [x] Cacheable
+
+### Front-end
+
+```
+npm run dev
+```
 
 #### Concepts
 
