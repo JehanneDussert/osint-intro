@@ -31,7 +31,6 @@ app.add_middleware(
 async def get_google_infos(
     query: str, 
     num_results: int = 10,
-    networks: Optional[List[str]] = Query(None)
 ) -> Dict[str, Union[List[EngineResult], List[NetworkAppearances]]]:
     
     query = query.replace(' ', '+')
@@ -50,38 +49,28 @@ async def get_duckduckgo_infos(query: str, num_results: int = 10) -> Dict[str, U
     
     return {"EngineResults": engine_results, "NetworkAppearances": network_appearances}
 
-@app.get("/get_combined_infos", response_model=Dict[str, Union[List[EngineResult], List[NetworkAppearances]]])
-async def get_combined_infos(
-    query: str, 
-    num_results: int = 10, 
-    sources: Optional[List[str]] = Query(None)
-):
-    engine_results = []
-    network_appearances = []
+# @app.get("/get_combined_infos", response_model=Dict[str, Union[List[EngineResult], List[NetworkAppearances]]])
+# async def get_combined_infos(
+#     query: str, 
+#     num_results: int = 10, 
+#     sources: Optional[List[str]] = Query(None)
+# ):
+#     engine_results = []
+#     network_appearances = []
 
-    if not sources or "google" in sources:
-        engine_results.extend(google_search(query, num_results))
-        network_appearances.extend(calculate_network_appearances(engine_results))
-    if not sources or "duckduckgo" in sources:
-        engine_results.extend(duckduckgo_search(query, num_results))
-        network_appearances.extend(calculate_network_appearances(engine_results))
+#     if not sources or "google" in sources:
+#         engine_results.extend(google_search(query, num_results))
+#         network_appearances.extend(calculate_network_appearances(engine_results))
+#     if not sources or "duckduckgo" in sources:
+#         engine_results.extend(duckduckgo_search(query, num_results))
+#         network_appearances.extend(calculate_network_appearances(engine_results))
 
-    return {"EngineResults": engine_results, "NetworkAppearances": network_appearances}
+#     return {"EngineResults": engine_results, "NetworkAppearances": network_appearances}
 
 @app.get("/get_sentiment_by_url")
 def get_sentiment_by_url(url: str) -> float:
     return get_sentiment(url)
 
-@app.get("/get_sentiments_by_urls")
-def get_sentiments_by_urls(urls: List[str]) -> Dict[str, float]:
-    sentiment_scores = {}
-
-    for url in urls:
-        sentiment_score = get_sentiment(url)
-        sentiment_scores[url] = sentiment_score
-
-    return sentiment_scores
-
-@app.get("/get_holehe_infos")
-async def get_holehe_infos() -> List[str]:
-    return extract_holehe_data()
+# @app.get("/get_holehe_infos")
+# async def get_holehe_infos() -> List[str]:
+#     return extract_holehe_data()
