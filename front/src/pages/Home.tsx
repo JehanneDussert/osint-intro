@@ -19,21 +19,39 @@ export const Home = () => {
 	const   [engineInfos, setEngineInfos] = useState<EngineInfo[]>([]);
 	const   [networkAppearances, setNetworkAppearances] = useState<NetworkAppearances[]>([]);
 
+    const get_query_with_networks = () => {
+        const newQuery = socialNetworks.reduce((accumulator, network, index) => {
+            if (index === 0) 
+                return `${accumulator}+site:${network}.com`;
+            else
+                return `${accumulator}+OR+site:${network}.com`;
+            }, query);
+        
+        return newQuery;
+    }
+
+    const get_query_with_doctypes = (queryWithNetworks: string) => {
+        const newQuery = docTypes.reduce((accumulator, doctype, index) => {
+            if (index === 0) 
+                return `${accumulator}+doctype:${doctype}`;
+            else
+                return `${accumulator}+OR+doctype:${doctype}`;
+            }, queryWithNetworks);
+        
+        return newQuery;
+    }
+
     useEffect(() => {
         if (isSubmitted) {
             if (query.length === 0) return ;
             console.log('soc: ', socialNetworks)
             console.log('qu: ', query)
-            const socialNetworksQuery = socialNetworks.reduce((accumulator, network, index) => {
-            if (index === 0) {
-                // Ajouter le premier site sans le mot-clé "OR"
-                return `${accumulator}+site:${network}.com`;
-            } else {
-                // Ajouter les sites suivants avec le mot-clé "OR"
-                return `${accumulator}+OR+site:${network}.com`;
-            }
-            }, query);
-            fetchData(socialNetworksQuery);
+            const queryWithNetworks = get_query_with_networks();
+            const queryWithDoctypes = get_query_with_doctypes(queryWithNetworks);
+
+            console.log('iciiiii: ', queryWithDoctypes)
+
+            fetchData(queryWithDoctypes);
             setIsSubmitted(false);
         }
     }, [isSubmitted, query, fetchData]);

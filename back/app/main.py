@@ -36,12 +36,6 @@ async def get_google_infos(
     print('qu: ', query)
     query = query.replace(' ', '+')
     
-    # for network in networks:
-    #     if query.find("site") != -1:
-    #         query = query + " OR"
-    #     else:
-    #         query = query + " AND"
-    #     query = query + " site:" + network
     print('qu af: ', query)
     
     engine_results = google_search(query, num_results)
