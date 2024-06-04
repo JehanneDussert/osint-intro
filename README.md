@@ -15,6 +15,13 @@ Internet research, geospatial analysis, NLP, mapping etc.
 ### Goals
 Identify potential threats, detect trends, assess risks, support strategic decisions, confirm reports, locate missing persons etc.
 
+### Main concepts
+- [x] data collection
+- [x] data processing: for instance w/ Pandas, NumPy, Scikit-learn
+- [x] data analysis: for instance w/ Matplotlib, Seaborn, TensorFlow
+- [x] data sources
+- [x] ethics & compliance
+
 ## Project
 
 Create a web application that collects data from Twitter via an API, analyzes this data to extract the most popular hashtags, and displays the results in a dashboard.
