@@ -3,7 +3,7 @@ export const Header = () => {
 	return (
 		<div className="py-6 px-20 flex justify-between">
             {/* <button onClick={() => navigate('/')} className="md:text-xl pr-10 text-[#3E4261]">
-                    Viginum
+                    OSINT
             </button> */}
 			{/* <nav>
                 <button onClick={() => navigate('/')} className="md:text-xl pr-10 text-[#3E4261]">
