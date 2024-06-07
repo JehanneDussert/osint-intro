@@ -29,7 +29,42 @@ Create a web application that collects data from Twitter via an API, analyzes th
 Project breakdown:
 - [x] Back-end: FastAPI
 - [x] Front-end: React + TypeScript + Tailwind + Mui
+- [x] Dockerized app
 - [x] Tests
+
+```
+source setup.sh
+```
+
+### Demo
+
+#### Basic search
+
+<p align="center">
+	<img src="./demo/basic.png" >
+</p>
+
+#### Dorks
+
+##### Social networks
+
+<p align="center">
+	<img src="./demo/Dorks-social-networks.png" >
+</p>
+
+<p align="center">
+	<img src="./demo/Dorks-social-networks-details.png" >
+</p>
+
+##### Filetype
+
+<p align="center">
+	<img src="./demo/Dorks-filetype.png" >
+</p>
+
+<p align="center">
+	<img src="./demo/Dorks-filetype-details.png" >
+</p>
 
 ### Back-end
 
