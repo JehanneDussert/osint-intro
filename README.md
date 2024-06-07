@@ -24,7 +24,11 @@ Identify potential threats, detect trends, assess risks, support strategic decis
 
 ## Project
 
-Create a web application that collects data from Twitter via an API, analyzes this data to extract the most popular hashtags, and displays the results in a dashboard.
+Create an application that allows me to perform advanced Google searches.
+Features:
+- Settings menu: Google dorks (filetype, social networks), choice of search engine
+- Summary of results: graph showing the distribution on social networks and average sentiment extracted from the results (positive content > 0 or negative < 0)
+- Details of results: page title, source, language, sentiment, potentially found personal data
 
 Project breakdown:
 - [x] Back-end: FastAPI
@@ -48,9 +52,13 @@ source setup.sh
 
 ##### Social networks
 
+- Basic
+
 <p align="center">
 	<img src="./demo/Dorks-social-networks.png" >
 </p>
+
+- Details
 
 <p align="center">
 	<img src="./demo/Dorks-social-networks-details.png" >
@@ -58,9 +66,13 @@ source setup.sh
 
 ##### Filetype
 
+- Basic
+
 <p align="center">
 	<img src="./demo/Dorks-filetype.png" >
 </p>
+
+- Details
 
 <p align="center">
 	<img src="./demo/Dorks-filetype-details.png" >
